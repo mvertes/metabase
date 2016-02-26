@@ -6,6 +6,7 @@
             (metabase.models [dependency :as dependency]
                              [interface :as i]
                              [revision :as revision]
+                             [setting :as setting]
                              [user :refer [User]])
             [metabase.query :as q]
             [metabase.util :as u]))
@@ -45,6 +46,13 @@
                 (k/where {:card_id id}))
       first
       :dashboards))
+
+(defn url
+  "Return a URL that can be used to access this Card."
+  [{:keys [id]}]
+  (when id
+    (str (setting/get :-site-url) "/card/" id)))
+
 
 (defn- pre-cascade-delete [{:keys [id]}]
   (db/cascade-delete 'PulseCard :card_id id)

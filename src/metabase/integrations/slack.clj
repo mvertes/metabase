@@ -104,3 +104,7 @@
     :text        text
     :attachments (when (seq attachments)
                    (json/generate-string attachments))))
+
+(def ^{:arglists '([& {:as params}])} websocket-url
+  "Return a new WebSocket URL for [Slack's Real Time Messaging API](https://api.slack.com/rtm)"
+  (comp :url (partial GET :rtm.start)))

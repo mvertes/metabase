@@ -7,6 +7,7 @@
                              [dashboard-card :refer [DashboardCard] :as dashboard-card]
                              [interface :as i]
                              [revision :as revision]
+                             [setting :as setting]
                              [user :refer [User]])
             [metabase.models.revision.diff :refer [build-sentence]]
             [metabase.util :as u]))
@@ -21,6 +22,12 @@
 (defn- pre-cascade-delete [{:keys [id]}]
   (cascade-delete 'Revision :model "Dashboard" :model_id id)
   (cascade-delete DashboardCard :dashboard_id id))
+
+(defn url
+  "Return a URL that can be used to access this Dashboard."
+  [{:keys [id]}]
+  (when id
+    (str (setting/get :-site-url) "/dash/" id)))
 
 
 (i/defentity Dashboard :report_dashboard)
