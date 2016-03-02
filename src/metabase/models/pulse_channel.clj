@@ -130,8 +130,11 @@
 
 ;; ## Persistence Functions
 
+;; TODO - fix docstring !!
 (defn retrieve-scheduled-channels
   "Fetch all `PulseChannels` that are scheduled to run given the current hour and day.
+
+   TODO - What about the 3rd and 4th args???
 
    Example:
        (retrieve-scheduled-channels 14 \"mon\")
@@ -141,8 +144,8 @@
      * just `hour` input returns any HOURLY scheduled channels + DAILY channels for the chosen hour.
      * when `hour` and `day` are supplied we return HOURLY channels + DAILY channels + WEEKLY channels."
   [hour weekday monthday monthweek]
-  {:pre [(integer? hour)
-         (day-of-week? weekday)
+  {:pre [(or (integer? hour) (nil? hour))
+         (or (day-of-week? weekday) (nil? weekday))
          (contains? #{:first :last :mid :other} monthday)
          (contains? #{:first :last :other} monthweek)]}
   (let [schedule-frame              (cond
