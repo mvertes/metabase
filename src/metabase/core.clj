@@ -23,7 +23,6 @@
                       [task :as task]
                       [util :as u])
             (metabase.models [setting :refer [defsetting]]
-                             [database :refer [Database]]
                              [user :refer [User]])))
 
 ;; ## CONFIG

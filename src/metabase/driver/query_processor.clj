@@ -1,8 +1,6 @@
 (ns metabase.driver.query-processor
   "Preprocessor that does simple transformations to all incoming queries, simplifing the driver-specific implementations."
-  (:require (clojure [pprint :as pprint]
-                     [string :as s]
-                     [walk :as walk])
+  (:require [clojure.walk :as walk]
             [clojure.tools.logging :as log]
             [korma.core :as k]
             [medley.core :as m]
@@ -15,8 +13,7 @@
                                              [interface :refer :all]
                                              [macros :as macros]
                                              [resolve :as resolve])
-            (metabase.models [field :refer [Field], :as field]
-                             [foreign-key :refer [ForeignKey]])
+            [metabase.models.field :refer [Field], :as field]
             [metabase.util :as u])
   (:import (schema.utils NamedError ValidationError)))
 

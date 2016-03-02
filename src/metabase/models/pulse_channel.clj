@@ -110,7 +110,7 @@
 
 (defn ^:hydrate recipients
   "Return the `PulseChannelRecipients` associated with this PULSE-CHANNEL."
-  [{:keys [id creator_id details] :as pulse-channel}]
+  [{:keys [id details]}]
   (into (mapv (partial array-map :email) (:emails details))
         (db/sel :many [User :id :email :first_name :last_name]
                 (k/where {:id [in (k/subselect PulseChannelRecipient (k/fields :user_id) (k/where {:pulse_channel_id id}))]}))))
@@ -141,10 +141,10 @@
      * just `hour` input returns any HOURLY scheduled channels + DAILY channels for the chosen hour.
      * when `hour` and `day` are supplied we return HOURLY channels + DAILY channels + WEEKLY channels."
   [hour weekday monthday monthweek]
-  [:pre [(integer? hour)
+  {:pre [(integer? hour)
          (day-of-week? weekday)
          (contains? #{:first :last :mid :other} monthday)
-         (contains? #{:first :last :other} monthweek)]]
+         (contains? #{:first :last :other} monthweek)]}
   (let [schedule-frame              (cond
                                       (= :mid monthday)    (name :mid)
                                       (= :first monthweek) (name :first)
